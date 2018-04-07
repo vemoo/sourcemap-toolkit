@@ -11,4 +11,12 @@
   <ItemGroup>
     <PackageReference Include="AjaxMin" Version="5.14.5506.26202"/>
   </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>SourcemapToolkit.CallstackDeminifier.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>    
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
