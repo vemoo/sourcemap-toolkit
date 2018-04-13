@@ -10,7 +10,7 @@ namespace SourcemapToolkit.CallstackTestApp
         [HttpGet]
         public string Deminify(string stack)
         {
-            var dm = StackTraceDeminfierFactory.GetMyStackTraceDeminfier(new SourceMapProvider());
+            var dm = StackTraceDeminfierFactory.GetStackTraceDeminfier(new SourceMapProvider());
             var res = dm.DeminifyStackTrace(stack);
 
             return string.Join("\n",
