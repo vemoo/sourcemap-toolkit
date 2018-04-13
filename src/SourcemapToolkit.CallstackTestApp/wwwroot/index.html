@@ -4,9 +4,10 @@
 <head>
     <title>Callstack Test App</title>
     <meta charset="utf-8" />
-    <script type="text/javascript" src="closurecrashcauser.minified.js"></script>
+    <script type="text/javascript" src="dist/bundle.js"></script>
     <style>
-        #callstackdisplay {
+        #callstackdisplay,
+        #deminified {
             width: 700px;
             height: 200px;
             border: 1px solid;
@@ -17,6 +18,7 @@
 <body>
     <h1>Click the button below to cause a crash and display the callstack</h1>
     <pre id="callstackdisplay"></pre>
+    <pre id="deminified"></pre>
     <button id="crashbutton" type="button">Cause Crash</button>
 </body>
 

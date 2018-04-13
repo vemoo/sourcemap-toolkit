@@ -267,3 +267,7 @@ __pycache__/
 # Minified JavaScript
 *.min.js
 *.min.js.map
+
+.cache/
+out/
+dist/
