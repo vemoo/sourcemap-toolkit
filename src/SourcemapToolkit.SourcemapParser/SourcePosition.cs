@@ -7,9 +7,15 @@ namespace SourcemapToolkit.SourcemapParser
     /// </summary>
     public class SourcePosition : IComparable<SourcePosition>
     {
-        public int ZeroBasedLineNumber;
+        public SourcePosition(int zeroBasedLineNumber, int zeroBasedColumnNumber)
+        {
+            ZeroBasedLineNumber = zeroBasedLineNumber;
+            ZeroBasedColumnNumber = zeroBasedColumnNumber;
+        }
 
-        public int ZeroBasedColumnNumber;
+        public int ZeroBasedLineNumber { get; internal set; }
+
+        public int ZeroBasedColumnNumber { get; internal set; }
 
         public int CompareTo(SourcePosition other)
         {
@@ -17,7 +23,6 @@ namespace SourcemapToolkit.SourcemapParser
             {
                 return this.ZeroBasedColumnNumber.CompareTo(other.ZeroBasedColumnNumber);
             }
-
             return this.ZeroBasedLineNumber.CompareTo(other.ZeroBasedLineNumber);
         }
 
@@ -60,11 +65,7 @@ namespace SourcemapToolkit.SourcemapParser
 
         public SourcePosition Clone()
         {
-            return new SourcePosition
-            {
-                ZeroBasedLineNumber = this.ZeroBasedLineNumber,
-                ZeroBasedColumnNumber = this.ZeroBasedColumnNumber
-            };
+            return new SourcePosition(ZeroBasedLineNumber, ZeroBasedColumnNumber);
         }
     }
 }

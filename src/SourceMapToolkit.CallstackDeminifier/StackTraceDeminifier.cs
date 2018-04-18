@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace SourcemapToolkit.CallstackDeminifier
 {
@@ -23,16 +23,12 @@ namespace SourcemapToolkit.CallstackDeminifier
         /// </summary>
         public DeminifyStackTraceResult DeminifyStackTrace(string stackTraceString)
         {
-            DeminifyStackTraceResult result = new DeminifyStackTraceResult();
-            result.MinifiedStackFrames = _stackTraceParser.ParseStackTrace(stackTraceString);
-            result.DeminifiedStackFrameResults = new List<StackFrameDeminificationResult>();
+            var minifiedStackFrames = _stackTraceParser.ParseStackTrace(stackTraceString);
+            var deminifiedStackFrameResults = minifiedStackFrames
+                .Select(_stackFrameDeminifier.DeminifyStackFrame)
+                .ToList();
 
-            foreach (StackFrame minifiedStackFrame in result.MinifiedStackFrames)
-            {
-                result.DeminifiedStackFrameResults.Add(_stackFrameDeminifier.DeminifyStackFrame(minifiedStackFrame));
-            }
-
-            return result;
+            return new DeminifyStackTraceResult(minifiedStackFrames, deminifiedStackFrameResults);
         }
     }
 }

@@ -3,7 +3,7 @@ using SourcemapToolkit.SourcemapParser;
 
 namespace SourcemapToolkit.CallstackDeminifier
 {
-    public class StackTraceDeminfierFactory
+    public static class StackTraceDeminfierFactory
     {
         public static StackTraceDeminifier GetStackTraceDeminfier(ISourceMapProvider sourceMapProvider)
         {

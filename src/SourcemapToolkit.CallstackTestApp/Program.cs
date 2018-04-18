@@ -12,8 +12,7 @@ namespace SourcemapToolkit.CallstackTestApp
 {
     class Program
     {
-
-        public static string GetContentRoot()
+        private static string GetContentRoot()
         {
             return System.Text.RegularExpressions.Regex.Replace(
                 System.Reflection.Assembly.GetExecutingAssembly().Location,
@@ -22,7 +21,7 @@ namespace SourcemapToolkit.CallstackTestApp
             );
         }
 
-        public static IWebHost BuildWebHost()
+        private static IWebHost BuildWebHost()
         {
             var webHost = WebHost.CreateDefaultBuilder()
                 .Configure(app =>

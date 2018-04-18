@@ -4,8 +4,13 @@ namespace SourcemapToolkit.CallstackDeminifier
 {
 	public class DeminifyStackTraceResult
 	{
-		public List<StackFrame> MinifiedStackFrames;
-
-		public List<StackFrameDeminificationResult> DeminifiedStackFrameResults;
+		public IReadOnlyList<StackFrame> MinifiedStackFrames { get; }
+		public IReadOnlyList<StackFrameDeminificationResult> DeminifiedStackFrameResults { get; }
+		
+		public DeminifyStackTraceResult(IReadOnlyList<StackFrame> minifiedStackFrames, IReadOnlyList<StackFrameDeminificationResult> deminifiedStackFrameResults)
+		{
+			MinifiedStackFrames = minifiedStackFrames;
+			DeminifiedStackFrameResults = deminifiedStackFrameResults;
+		}
 	}
 }

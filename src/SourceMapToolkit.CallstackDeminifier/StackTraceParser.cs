@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using SourcemapToolkit.SourcemapParser;
 
@@ -33,12 +34,12 @@ namespace SourcemapToolkit.CallstackDeminifier
 				throw new ArgumentNullException(nameof(stackTraceString));
 			}
 
-			List<StackFrame> stackTrace = new List<StackFrame>();
-			List<string> stackFrameStrings = stackTraceString.Split('\n').ToList();
+			var stackTrace = new List<StackFrame>();
+			var stackFrameStrings = stackTraceString.Split('\n').ToList();
 
-			foreach (string frame in stackFrameStrings)
+			foreach (var frame in stackFrameStrings)
 			{
-				StackFrame parsedStackFrame = TryParseSingleStackFrame(frame);
+				var parsedStackFrame = TryParseSingleStackFrame(frame);
 
 				if (parsedStackFrame != null)
 				{
@@ -52,20 +53,20 @@ namespace SourcemapToolkit.CallstackDeminifier
 		/// <summary>
 		/// Given a single stack frame, extract the method name.
 		/// </summary>
-		private string TryExtractMethodNameFromFrame(string frame)
+		private static string TryExtractMethodNameFromFrame(string frame)
 		{
 			// Firefox has stackframes in the form: "c@http://localhost:19220/crashcauser.min.js:1:34"
-			int atSymbolIndex = frame.IndexOf("@http", StringComparison.Ordinal);
+			var atSymbolIndex = frame.IndexOf("@http", StringComparison.Ordinal);
 			if (atSymbolIndex != -1)
 			{
 				return frame.Substring(0, atSymbolIndex).TrimStart();
 			}
 
 			// Chrome and IE11 have stackframes in the form: " at d (http://chrisgocallstack.azurewebsites.net/crashcauser.min.js:1:75)"
-			int atStringIndex = frame.IndexOf("at ", StringComparison.Ordinal);
+			var atStringIndex = frame.IndexOf("at ", StringComparison.Ordinal);
 			if (atStringIndex != -1)
 			{
-				int httpIndex = frame.IndexOf(" (http", atStringIndex, StringComparison.Ordinal);
+				var httpIndex = frame.IndexOf(" (http", atStringIndex, StringComparison.Ordinal);
 				if (httpIndex != -1)
 				{
 					return frame.Substring(atStringIndex, httpIndex - atStringIndex).Replace("at ", "").Trim();
@@ -85,29 +86,35 @@ namespace SourcemapToolkit.CallstackDeminifier
 				throw new ArgumentNullException(nameof(frame));
 			}
 
-			Match lineNumberMatch = _lineNumberRegex.Match(frame);
+			var lineNumberMatch = _lineNumberRegex.Match(frame);
 
 			if (!lineNumberMatch.Success)
 			{
 				return null;
 			}
 
-			StackFrame result = new StackFrame {MethodName = TryExtractMethodNameFromFrame(frame)};
-
+			var methodName = TryExtractMethodNameFromFrame(frame);
+			
+			string filePath;
+			SourcePosition sourcePosition;
 			if (lineNumberMatch.Success)
 			{
-				result.FilePath = lineNumberMatch.Groups[1].Value;
-				result.SourcePosition = new SourcePosition
-				{
+				filePath = lineNumberMatch.Groups[1].Value;
+				sourcePosition = new SourcePosition(
 					// The browser provides one-based line and column numbers, but the
 					// rest of this library uses zero-based values. Normalize to make
 					// the stack frames zero based.
-					ZeroBasedLineNumber = int.Parse(lineNumberMatch.Groups[2].Value, CultureInfo.InvariantCulture) - 1,
-					ZeroBasedColumnNumber = int.Parse(lineNumberMatch.Groups[3].Value, CultureInfo.InvariantCulture) -1 
-				};
+					zeroBasedLineNumber: int.Parse(lineNumberMatch.Groups[2].Value, CultureInfo.InvariantCulture) - 1,
+					zeroBasedColumnNumber: int.Parse(lineNumberMatch.Groups[3].Value, CultureInfo.InvariantCulture) - 1);	
+			}
+			else
+			{
+				// TODO ???
+				filePath = null;
+				sourcePosition = null;
 			}
 
-			return result;
+			return new StackFrame(methodName, filePath, sourcePosition);
 		}
 	}
 }

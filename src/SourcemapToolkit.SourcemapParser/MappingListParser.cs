@@ -41,22 +41,14 @@ namespace SourcemapToolkit.SourcemapParser
 
 		public MappingEntry ToMappingEntry(List<string> names, List<string> sources)
 		{
-			MappingEntry result = new MappingEntry
+			var result = new MappingEntry
 			{
-				GeneratedSourcePosition = new SourcePosition
-				{
-					ZeroBasedColumnNumber = GeneratedColumnNumber,
-					ZeroBasedLineNumber = GeneratedLineNumber
-				}
+				GeneratedSourcePosition = new SourcePosition(GeneratedLineNumber, GeneratedColumnNumber),
 			};
 
 			if (OriginalColumnNumber.HasValue && OriginalLineNumber.HasValue)
 			{
-				result.OriginalSourcePosition = new SourcePosition
-				{
-					ZeroBasedColumnNumber = OriginalColumnNumber.Value,
-					ZeroBasedLineNumber = OriginalLineNumber.Value
-				};
+				result.OriginalSourcePosition = new SourcePosition(OriginalLineNumber.Value, OriginalColumnNumber.Value);
 			}
 
 			if (OriginalNameIndex.HasValue)

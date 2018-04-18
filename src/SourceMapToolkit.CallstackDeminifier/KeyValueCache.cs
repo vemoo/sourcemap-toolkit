@@ -20,8 +20,7 @@ namespace SourcemapToolkit.CallstackDeminifier
 		/// </summary>
 		public TValue GetValue(TKey key)
 		{
-			TValue value = null;
-			if (!_cache.TryGetValue(key, out value))
+			if (!_cache.TryGetValue(key, out var value))
 			{
 				value = _cache.GetOrAdd(key, _valueGetter);
 			}

@@ -2,312 +2,200 @@
 
 namespace SourcemapToolkit.SourcemapParser.UnitTests
 {
-	[TestClass]
-	public class SourcePositionUnitTests
-	{
-		[TestMethod]
-		public void CompareTo_SameLineAndColumn_Equal()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 6
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 6
-			};
+    [TestClass]
+    public class SourcePositionUnitTests
+    {
+        [TestMethod]
+        public void CompareTo_SameLineAndColumn_Equal()
+        {
+            // Arrange
+            var x = new SourcePosition(1, 6);
+            var y = new SourcePosition(1, 6);
 
-			// Act
-			int result = x.CompareTo(y);
+            // Act
+            var result = x.CompareTo(y);
 
-			// Assert
-			Assert.AreEqual(0, result);
-		}
+            // Assert
+            Assert.AreEqual(0, result);
+        }
 
-		[TestMethod]
-		public void CompareTo_LargerZeroBasedLineNumber_ReturnLarger()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 2,
-				ZeroBasedColumnNumber = 4
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 8
-			};
+        [TestMethod]
+        public void CompareTo_LargerZeroBasedLineNumber_ReturnLarger()
+        {
+            // Arrange
+            var x = new SourcePosition(2, 4);
+            var y = new SourcePosition(1, 8);
 
-			// Act
-			int result = x.CompareTo(y);
+            // Act
+            var result = x.CompareTo(y);
 
-			// Assert
-			Assert.IsTrue(result > 0);
-		}
+            // Assert
+            Assert.IsTrue(result > 0);
+        }
 
-		[TestMethod]
-		public void CompareTo_SmallerZeroBasedLineNumber_ReturnSmaller()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 4
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 3,
-				ZeroBasedColumnNumber = 8
-			};
+        [TestMethod]
+        public void CompareTo_SmallerZeroBasedLineNumber_ReturnSmaller()
+        {
+            // Arrange
+            var x = new SourcePosition(1, 4);
+            var y = new SourcePosition(3, 8);
 
-			// Act
-			int result = x.CompareTo(y);
+            // Act
+            var result = x.CompareTo(y);
 
-			// Assert
-			Assert.IsTrue(result < 0);
-		}
+            // Assert
+            Assert.IsTrue(result < 0);
+        }
 
-		[TestMethod]
-		public void CompareTo_SameLineLargerColumn_ReturnLarger()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 8
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 6
-			};
+        [TestMethod]
+        public void CompareTo_SameLineLargerColumn_ReturnLarger()
+        {
+            // Arrange
+            var x = new SourcePosition(1, 8);
+            var y = new SourcePosition(1, 6);
 
-			// Act
-			int result = x.CompareTo(y);
+            // Act
+            var result = x.CompareTo(y);
 
-			// Assert
-			Assert.IsTrue(result > 0);
-		}
+            // Assert
+            Assert.IsTrue(result > 0);
+        }
 
-		[TestMethod]
-		public void CompareTo_SameLineSmallerColumn_ReturnSmaller()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 4
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 8
-			};
+        [TestMethod]
+        public void CompareTo_SameLineSmallerColumn_ReturnSmaller()
+        {
+            // Arrange
+            var x = new SourcePosition(1, 4);
+            var y = new SourcePosition(1, 8);
 
-			// Act
-			int result = x.CompareTo(y);
+            // Act
+            var result = x.CompareTo(y);
 
-			// Assert
-			Assert.IsTrue(result < 0);
-		}
+            // Assert
+            Assert.IsTrue(result < 0);
+        }
 
-		[TestMethod]
-		public void LessThanOverload_SameZeroBasedLineNumberXColumnSmaller_ReturnTrue()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 4
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 8
-			};
+        [TestMethod]
+        public void LessThanOverload_SameZeroBasedLineNumberXColumnSmaller_ReturnTrue()
+        {
+            // Arrange
+            var x = new SourcePosition(1, 4);
+            var y = new SourcePosition(1, 8);
 
-			// Act
-			bool result = x < y;
+            // Act
+            var result = x < y;
 
-			// Assert
-			Assert.IsTrue(result);
-		}
+            // Assert
+            Assert.IsTrue(result);
+        }
 
-		[TestMethod]
-		public void LessThanOverload_XZeroBasedLineNumberSmallerX_ReturnTrue()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 1,
-				ZeroBasedColumnNumber = 10
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 2,
-				ZeroBasedColumnNumber = 8
-			};
+        [TestMethod]
+        public void LessThanOverload_XZeroBasedLineNumberSmallerX_ReturnTrue()
+        {
+            // Arrange
+            var x = new SourcePosition(1, 10);
+            var y = new SourcePosition(2, 8);
 
-			// Act
-			bool result = x < y;
+            // Act
+            var result = x < y;
 
-			// Assert
-			Assert.IsTrue(result);
-		}
+            // Assert
+            Assert.IsTrue(result);
+        }
 
-		[TestMethod]
-		public void LessThanOverload_Equal_ReturnFalse()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 0,
-				ZeroBasedColumnNumber = 0
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 0,
-				ZeroBasedColumnNumber = 0
-			};
+        [TestMethod]
+        public void LessThanOverload_Equal_ReturnFalse()
+        {
+            // Arrange
+            var x = new SourcePosition(0, 0);
+            var y = new SourcePosition(0, 0);
 
-			// Act
-			bool result = x < y;
+            // Act
+            var result = x < y;
 
-			// Assert
-			Assert.IsFalse(result);
-		}
+            // Assert
+            Assert.IsFalse(result);
+        }
 
-		[TestMethod]
-		public void LessThanOverload_XColumnLarger_ReturnFalse()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 0,
-				ZeroBasedColumnNumber = 10
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 0,
-				ZeroBasedColumnNumber = 0
-			};
+        [TestMethod]
+        public void LessThanOverload_XColumnLarger_ReturnFalse()
+        {
+            // Arrange
+            var x = new SourcePosition(0, 10);
+            var y = new SourcePosition(0, 0);
 
-			// Act
-			bool result = x < y;
+            // Act
+            var result = x < y;
 
-			// Assert
-			Assert.IsFalse(result);
-		}
+            // Assert
+            Assert.IsFalse(result);
+        }
 
-		[TestMethod]
-		public void GreaterThanOverload_SameLineXColumnLarger_ReturnTrue()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 2,
-				ZeroBasedColumnNumber = 10
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 2,
-				ZeroBasedColumnNumber = 3
-			};
+        [TestMethod]
+        public void GreaterThanOverload_SameLineXColumnLarger_ReturnTrue()
+        {
+            // Arrange
+            var x = new SourcePosition(2, 10);
+            var y = new SourcePosition(2, 3);
 
-			// Act
-			bool result = x > y;
+            // Act
+            var result = x > y;
 
-			// Assert
-			Assert.IsTrue(result);
-		}
+            // Assert
+            Assert.IsTrue(result);
+        }
 
-		[TestMethod]
-		public void GreaterThanOverload_XZeroBasedLineNumberLarger_ReturnTrue()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 3,
-				ZeroBasedColumnNumber = 10
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 2,
-				ZeroBasedColumnNumber = 30
-			};
+        [TestMethod]
+        public void GreaterThanOverload_XZeroBasedLineNumberLarger_ReturnTrue()
+        {
+            // Arrange
+            var x = new SourcePosition(3, 10);
+            var y = new SourcePosition(2, 30);
 
-			// Act
-			bool result = x > y;
+            // Act
+            var result = x > y;
 
-			// Assert
-			Assert.IsTrue(result);
-		}
+            // Assert
+            Assert.IsTrue(result);
+        }
 
-		[TestMethod]
-		public void GreaterThanOverload_Equal_ReturnFalse()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 3,
-				ZeroBasedColumnNumber = 10
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 3,
-				ZeroBasedColumnNumber = 10
-			};
+        [TestMethod]
+        public void GreaterThanOverload_Equal_ReturnFalse()
+        {
+            // Arrange
+            var x = new SourcePosition(3, 10);
+            var y = new SourcePosition(3, 10);
 
-			// Act
-			bool result = x > y;
+            // Act
+            var result = x > y;
 
-			// Assert
-			Assert.IsFalse(result);
-		}
+            // Assert
+            Assert.IsFalse(result);
+        }
 
-		[TestMethod]
-		public void GreaterThanOverload_XSmaller_ReturnFalse()
-		{
-			// Arrange
-			SourcePosition x = new SourcePosition
-			{
-				ZeroBasedLineNumber = 3,
-				ZeroBasedColumnNumber = 9
-			};
-			SourcePosition y = new SourcePosition
-			{
-				ZeroBasedLineNumber = 3,
-				ZeroBasedColumnNumber = 10
-			};
+        [TestMethod]
+        public void GreaterThanOverload_XSmaller_ReturnFalse()
+        {
+            // Arrange
+            var x = new SourcePosition(3, 9);
+            var y = new SourcePosition(3, 10);
 
-			// Act
-			bool result = x > y;
+            // Act
+            var result = x > y;
 
-			// Assert
-			Assert.IsFalse(result);
-		}
+            // Assert
+            Assert.IsFalse(result);
+        }
 
         [TestMethod]
         public void IsEqualish_XEqualsY_ReturnTrue()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 13,
-                ZeroBasedColumnNumber = 5
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 13,
-                ZeroBasedColumnNumber = 5
-            };
+            var x = new SourcePosition(13, 5);
+            var y = new SourcePosition(13, 5);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsTrue(result);
@@ -317,19 +205,11 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void IsEqualish_XColumnNumberBiggerByOne_ReturnTrue()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 2,
-                ZeroBasedColumnNumber = 8
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 2,
-                ZeroBasedColumnNumber = 7
-            };
+            var x = new SourcePosition(2, 8);
+            var y = new SourcePosition(2, 7);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsTrue(result);
@@ -339,19 +219,11 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void IsEqualish_YColumnNumberBiggerByOne_ReturnTrue()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 1,
-                ZeroBasedColumnNumber = 10
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 1,
-                ZeroBasedColumnNumber = 11
-            };
+            var x = new SourcePosition(1, 10);
+            var y = new SourcePosition(1, 11);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsTrue(result);
@@ -361,19 +233,11 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void IsEqualish_YColumnNumberBiggerByTwo_ReturnFalse()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 155,
-                ZeroBasedColumnNumber = 100
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 155,
-                ZeroBasedColumnNumber = 102
-            };
+            var x = new SourcePosition(155, 100);
+            var y = new SourcePosition(155, 102);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsFalse(result);
@@ -383,19 +247,11 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void IsEqualish_XColumnNumberZeroLineNumbersDifferByOne_ReturnTrue()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 235,
-                ZeroBasedColumnNumber = 0
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 234,
-                ZeroBasedColumnNumber = 102
-            };
+            var x = new SourcePosition(235, 0);
+            var y = new SourcePosition(234, 102);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsTrue(result);
@@ -405,19 +261,11 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void IsEqualish_YColumnNumberZeroLineNumbersDifferByOne_ReturnTrue()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 458,
-                ZeroBasedColumnNumber = 13
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 459,
-                ZeroBasedColumnNumber = 0
-            };
+            var x = new SourcePosition(458, 13);
+            var y = new SourcePosition(459, 0);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsTrue(result);
@@ -427,19 +275,11 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void IsEqualish_YColumnNumberZeroLineNumbersDifferByTwo_ReturnFalse()
         {
             // Arrange
-            SourcePosition x = new SourcePosition
-            {
-                ZeroBasedLineNumber = 5456,
-                ZeroBasedColumnNumber = 13
-            };
-            SourcePosition y = new SourcePosition
-            {
-                ZeroBasedLineNumber = 5458,
-                ZeroBasedColumnNumber = 0
-            };
+            var x = new SourcePosition(5456, 13);
+            var y = new SourcePosition(5458, 0);
 
             // Act
-            bool result = x.IsEqualish(y);
+            var result = x.IsEqualish(y);
 
             // Assert
             Assert.IsFalse(result);

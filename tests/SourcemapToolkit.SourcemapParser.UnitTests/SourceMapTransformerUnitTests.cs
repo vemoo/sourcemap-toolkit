@@ -15,9 +15,9 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void FlattenMap_ReturnsOnlyLineInformation()
         {
             // Arrange
-            SourcePosition generated1 = UnitTestUtils.generateSourcePosition(lineNumber: 1, colNumber: 2);
-            SourcePosition original1 = UnitTestUtils.generateSourcePosition(lineNumber: 2, colNumber: 2);
-            MappingEntry mappingEntry = UnitTestUtils.getSimpleEntry(generated1, original1, "sourceOne.js");
+            SourcePosition generated1 = UnitTestUtils.GenerateSourcePosition(lineNumber: 1, colNumber: 2);
+            SourcePosition original1 = UnitTestUtils.GenerateSourcePosition(lineNumber: 2, colNumber: 2);
+            MappingEntry mappingEntry = UnitTestUtils.GetSimpleEntry(generated1, original1, "sourceOne.js");
 
             SourceMap map = new SourceMap
             {
@@ -45,13 +45,13 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void FlattenMap_MultipleMappingsSameLine_ReturnsOnlyOneMappingPerLine()
         {
             // Arrange
-            SourcePosition generated1 = UnitTestUtils.generateSourcePosition(lineNumber: 1, colNumber: 2);
-            SourcePosition original1 = UnitTestUtils.generateSourcePosition(lineNumber: 2, colNumber: 2);
-            MappingEntry mappingEntry = UnitTestUtils.getSimpleEntry(generated1, original1, "sourceOne.js");
+            SourcePosition generated1 = UnitTestUtils.GenerateSourcePosition(lineNumber: 1, colNumber: 2);
+            SourcePosition original1 = UnitTestUtils.GenerateSourcePosition(lineNumber: 2, colNumber: 2);
+            MappingEntry mappingEntry = UnitTestUtils.GetSimpleEntry(generated1, original1, "sourceOne.js");
 
-            SourcePosition generated2 = UnitTestUtils.generateSourcePosition(lineNumber: 1, colNumber: 5);
-            SourcePosition original2 = UnitTestUtils.generateSourcePosition(lineNumber: 2, colNumber: 5);
-            MappingEntry mappingEntry2 = UnitTestUtils.getSimpleEntry(generated2, original2, "sourceOne.js");
+            SourcePosition generated2 = UnitTestUtils.GenerateSourcePosition(lineNumber: 1, colNumber: 5);
+            SourcePosition original2 = UnitTestUtils.GenerateSourcePosition(lineNumber: 2, colNumber: 5);
+            MappingEntry mappingEntry2 = UnitTestUtils.GetSimpleEntry(generated2, original2, "sourceOne.js");
 
             SourceMap map = new SourceMap
             {
@@ -79,13 +79,13 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
         public void FlattenMap_MultipleOriginalLineToSameGeneratedLine_ReturnsFirstOriginalLine()
         {
             // Arrange
-            SourcePosition generated1 = UnitTestUtils.generateSourcePosition(lineNumber: 1, colNumber: 2);
-            SourcePosition original1 = UnitTestUtils.generateSourcePosition(lineNumber: 2, colNumber: 2);
-            MappingEntry mappingEntry = UnitTestUtils.getSimpleEntry(generated1, original1, "sourceOne.js");
+            SourcePosition generated1 = UnitTestUtils.GenerateSourcePosition(lineNumber: 1, colNumber: 2);
+            SourcePosition original1 = UnitTestUtils.GenerateSourcePosition(lineNumber: 2, colNumber: 2);
+            MappingEntry mappingEntry = UnitTestUtils.GetSimpleEntry(generated1, original1, "sourceOne.js");
 
-            SourcePosition generated2 = UnitTestUtils.generateSourcePosition(lineNumber: 1, colNumber: 3);
-            SourcePosition original2 = UnitTestUtils.generateSourcePosition(lineNumber: 3, colNumber: 5);
-            MappingEntry mappingEntry2 = UnitTestUtils.getSimpleEntry(generated2, original2, "sourceOne.js");
+            SourcePosition generated2 = UnitTestUtils.GenerateSourcePosition(lineNumber: 1, colNumber: 3);
+            SourcePosition original2 = UnitTestUtils.GenerateSourcePosition(lineNumber: 3, colNumber: 5);
+            MappingEntry mappingEntry2 = UnitTestUtils.GetSimpleEntry(generated2, original2, "sourceOne.js");
 
             SourceMap map = new SourceMap
             {

@@ -3,10 +3,11 @@ using SourcemapToolkit.SourcemapParser;
 
 namespace SourcemapToolkit.CallstackDeminifier
 {
-    class StackFrameDeminifier : IStackFrameDeminifier
+    internal class StackFrameDeminifier : IStackFrameDeminifier
     {
         private readonly ISourceMapStore _sourceMapStore;
-        public StackFrameDeminifier(SourceMapStore sourceMapStore)
+        
+        public StackFrameDeminifier(ISourceMapStore sourceMapStore)
         {
             _sourceMapStore = sourceMapStore;
         }
@@ -29,27 +30,17 @@ namespace SourcemapToolkit.CallstackDeminifier
                             m = sourceMap.ParsedMappings[i - 1];
                         }
 
-                        return new StackFrameDeminificationResult
-                        {
-                            DeminificationError = DeminificationError.None,
-                            DeminifiedStackFrame = new StackFrame
-                            {
-                                SourcePosition = m.OriginalSourcePosition,
-                                FilePath = m.OriginalFileName,
-                                MethodName = noNames
-                                    ? stackFrame.MethodName
-                                    : m.OriginalName,
-                            },
-                        };
+                        var methodName = noNames
+                            ? stackFrame.MethodName
+                            : m.OriginalName;
+                        
+                        return StackFrameDeminificationResult.Ok(new StackFrame(methodName, m.OriginalFileName,
+                            m.OriginalSourcePosition));;
                     }
                 }
             }
 
-            return new StackFrameDeminificationResult
-            {
-                DeminificationError = DeminificationError.NoMatchingMapingInSourceMap,
-                DeminifiedStackFrame = stackFrame,
-            };
+            return  StackFrameDeminificationResult.Error(DeminificationError.NoMatchingMapingInSourceMap, stackFrame);
         }
     }
 }
