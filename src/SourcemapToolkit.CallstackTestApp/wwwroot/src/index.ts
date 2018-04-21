@@ -1,4 +1,5 @@
-﻿
+﻿import $ from "jquery";
+
 const els = {
     get callstackdisplay() {
         return document.getElementById("callstackdisplay") as HTMLPreElement;
@@ -15,7 +16,13 @@ function causeCrash() {
     function level1() {
         var longLocalVariableName = 16;
         longLocalVariableName += 2;
-        level2(longLocalVariableName);
+        $.get(window.location.toString())
+            .then((x: any) => {
+                level2(longLocalVariableName);
+            })
+            .catch((err: any) => {
+                deminify(err.stack)
+            })
     }
 
     function level2(input: number) {
@@ -23,7 +30,11 @@ function causeCrash() {
         level3(input);
     }
 
-    function level3(input: number) {
+    const level3 = (input: number) => {
+        level4(input * 2);
+    };
+
+    function level4(input: number) {
         (function () {
             let x: any;
             console.log(x.length + input);
@@ -37,7 +48,6 @@ function causeCrash() {
         } else if (window.event && (window.event as any).error) {
             stack = (window.event as any).error.stack;
         }
-        els.callstackdisplay.innerText = stack;
         deminify(stack);
     }
 
@@ -45,6 +55,7 @@ function causeCrash() {
 }
 
 function deminify(stack: string) {
+    els.callstackdisplay.innerText = stack;
     els.deminified.innerText = "";
     fetch(`/Deminify/Deminify?stack=${encodeURIComponent(stack)}`, { method: "GET" })
         .then(res => res.text())

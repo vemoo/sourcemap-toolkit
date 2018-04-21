@@ -1,16 +1,14 @@
 const path = require('path');
 
+const isProd = process.argv.indexOf("-p") >= 0;
+
 module.exports = {
-    mode: "development",
+    mode: isProd ? "production" : "development",
     entry: './out/index.js',
-    devtool:
-        //  "source-map"
-        "nosources-source-map"
-    ,
+    devtool: "source-map",
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        // publicPath: "/dist",
     },
     module: {
         rules: [
@@ -20,5 +18,8 @@ module.exports = {
                 enforce: "pre"
             }
         ]
+    },
+    externals: {
+        "jquery": "jQuery"
     }
 };

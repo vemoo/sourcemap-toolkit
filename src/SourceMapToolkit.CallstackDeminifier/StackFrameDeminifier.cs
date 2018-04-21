@@ -6,7 +6,7 @@ namespace SourcemapToolkit.CallstackDeminifier
     internal class StackFrameDeminifier : IStackFrameDeminifier
     {
         private readonly ISourceMapStore _sourceMapStore;
-        
+
         public StackFrameDeminifier(ISourceMapStore sourceMapStore)
         {
             _sourceMapStore = sourceMapStore;
@@ -15,6 +15,11 @@ namespace SourcemapToolkit.CallstackDeminifier
         public StackFrameDeminificationResult DeminifyStackFrame(StackFrame stackFrame)
         {
             var sourceMap = _sourceMapStore.GetSourceMapForUrl(stackFrame.FilePath);
+
+            if (sourceMap == null)
+            {
+                return StackFrameDeminificationResult.Error(DeminificationError.NoSourceMap, stackFrame);
+            }
 
             var noNames = sourceMap.Names.Count == 0;
 
@@ -33,14 +38,14 @@ namespace SourcemapToolkit.CallstackDeminifier
                         var methodName = noNames
                             ? stackFrame.MethodName
                             : m.OriginalName;
-                        
+
                         return StackFrameDeminificationResult.Ok(new StackFrame(methodName, m.OriginalFileName,
-                            m.OriginalSourcePosition));;
+                            m.OriginalSourcePosition)); ;
                     }
                 }
             }
 
-            return  StackFrameDeminificationResult.Error(DeminificationError.NoMatchingMapingInSourceMap, stackFrame);
+            return StackFrameDeminificationResult.Error(DeminificationError.NoMatchingMapingInSourceMap, stackFrame);
         }
     }
 }
