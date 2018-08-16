@@ -6,24 +6,26 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
 	[TestClass]
 	public class Base64ConverterUnitTests
 	{
-		[TestMethod]
-		public void FromBase64_ValidBase64InputC_CorrectIntegerOutput2()
+		[DataTestMethod]
+		[DataRow('C', 2)]
+		[DataRow('9', 61)]
+		public void FromBase64_ValidBase64Input(char c, int expected)
 		{
 			// Act
-			int value = Base64Converter.FromBase64('C');
-
+			var value = Base64Converter.FromBase64(c);
 			// Assert
-			Assert.AreEqual(2, value);
+			Assert.AreEqual(expected, value);
 		}
-
-		[TestMethod]
-		public void FromBase64_ValidBase64Input9_CorrectIntegerOutput61()
+		
+		[DataTestMethod]
+		[DataRow(2, 'C')]
+		[DataRow(61,'9')]
+		public void ToBase64_ValidIntegerInput(int i, char expected)
 		{
 			// Act
-			int value = Base64Converter.FromBase64('9');
-
+			var value = Base64Converter.ToBase64(i);
 			// Assert
-			Assert.AreEqual(61, value);
+			Assert.AreEqual(expected, value);
 		}
 
 		[TestMethod]
@@ -33,16 +35,7 @@ namespace SourcemapToolkit.SourcemapParser.UnitTests
 			// Act
 			Base64Converter.FromBase64('@');
 		}
-
-		[TestMethod]
-		public void ToBase64_ValidIntegerInput61_CorrectBase64Output9()
-		{
-			// Act
-			char value = Base64Converter.ToBase64(61);
-
-			// Assert
-			Assert.AreEqual('9', value);
-		}
+		
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
